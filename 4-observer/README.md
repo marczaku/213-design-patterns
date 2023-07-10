@@ -97,7 +97,7 @@ The Observer is the class that can observe (`KillAchievement`):
 ```cpp
 class IDeathObserver{
 public:
-    virtual ~IDeathObserver() = 0;
+    virtual ~IDeathObserver() {};
     virtual void notifyDeath(IDeathSubject& subject) = 0;
 };
 ```

@@ -67,7 +67,7 @@ public:
         deathObservers.push_back(observer);
     }
     void removeObserver(IDeathObserver* observer){
-        deathObservers.erase(std::remove(vec.begin(), vec.end(), observer), vec.end());
+        deathObservers.erase(std::remove(deathObservers.begin(), deathObservers.end(), observer), deathObservers.end());
     }
     void raiseDeath(IDeathSubject* subject){
         for(auto observer : deathObservers){
@@ -97,13 +97,13 @@ The Observer is the class that can observe (`KillAchievement`):
 ```cpp
 class IDeathObserver{
 public:
-    virtual ~DeathObserver();
+    virtual ~IDeathObserver();
     virtual void notifyDeath(IDeathSubject& subject) = 0;
 };
 ```
 
 ```cpp
-class KillsAchievement{
+class KillsAchievement : IDeathObserver{
     Enemy* enemy;
     int killCount;
 public:

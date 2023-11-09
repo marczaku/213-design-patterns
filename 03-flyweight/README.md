@@ -1,6 +1,6 @@
 # 3 Flyweight
 
-The idea here is, if you have a thousand objects containing a lot of data, then you could put the information that they all share into a separate class and then share one instance of that class across all instances instead of each instance having their own copy of said redundant information.
+The idea here is, if you have a thousand objects containing a lot of data, then you could put the information that they all have in common into a separate class and then share one instance of that class across all instances instead of each instance having their own copy of said redundant information.
 - Unity: `ScriptableObject`, `UnityEngine.Object`
 - C#: `class`
 - C++: Pointers, References

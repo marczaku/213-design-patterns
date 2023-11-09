@@ -1,6 +1,6 @@
 # 4 Observer
 
-A pattern that helps you decouple components by making sure that high-level classes can observe the results of low-level classes instead of the low-level class being required to know, which high-level classes need to be informed on changes.
+A pattern that allows classes to be notified when values in a class change. It helps you to decouple components by making sure that high-level classes can observe the results of low-level classes instead of the low-level class being required to know, which high-level classes need to be informed on changes.
 - Unity: `UnityEvent`
 - C#: `event`
 - C++: manual implementation using `list` and Virtualization

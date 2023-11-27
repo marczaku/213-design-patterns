@@ -1,129 +1,105 @@
-# 2 Iterator Pattern
+# Iterator Pattern
 
-The Iterator Pattern is a Design Patterns used in Programming to allow us to sequentially visit all items in any type of collection.
+![img.png](img.png)
+
+The Iterator Pattern is a Design Pattern used in Programming to allow us to sequentially visit all items in any type of collection.
 
 ## The Problem
 
-We will learn about many different kinds of Collections. They all store items in different ways. Many of which don't have a clear order or a clear beginning and an end.
+There are many different types of Collections: `Array`, `List`, `Stack`, `Queue`, `Tree`, `Graph`, ...
 
 But then, how can we define a standardized way for looking at all items in a collection?
 
-## The Solution
+## The Concept
 
-```cs
-public interface ICollection {
-    // Returns a class used for iterating over all elements
-    IIterator GetIterator();
+```c++
+class IIterator {
+public:
+    // Tells you whether there are any more elements
+    virtual bool HasNext() = 0;
+    // Returns the next element
+    virtual void* GetNext() = 0;
+};
+```
+
+```c++
+class ICollection {
+public:
+    // Returns an object used for iterating over all elements
+    virtual IIterator* GetIterator() = 0;
+};
+```
+Now, this interface can be used as follows:
+
+
+```c++
+ICollection* anyCollection = CreateRandomCollection();
+IIterator* iterator = anyCollection->GetIterator();
+while (iterator->HasNext()) {
+    std::cout << "Next Element: " << iterator->GetNext() << std::endl;
 }
 ```
 
-```cs
-public interface IIterator {
-    // tells you, whether there is any more elements
-    bool HasNext();
-    // returns the next element
-    object GetNext();
+## Iterable
+
+In C++, the concept of IEnumerable is typically implemented using iterators, but there isn't a standardized interface like in C#. The closest equivalent would be to use the range-based for loop for iterable types.
+
+## Iterators in C++
+
+In C++, iterators are typically implemented as part of the iterable class. The standard library provides the concept of iterators for various containers, and you can implement your own custom iterators for custom classes.
+
+Here's a basic example:
+
+```c++
+class CustomIterator {
+public:
+    // Constructor, etc.
+
+    // Advances the iterator to the next element
+    virtual bool MoveNext() = 0;
+
+    // Returns the current element
+    virtual void* GetCurrent() = 0;
+
+    // Other methods if needed
+};
+
+class CustomCollection {
+public:
+    // Returns an iterator for the collection
+    virtual CustomIterator* begin() = 0;
+    virtual CustomIterator* end() = 0;
+
+    // Other methods if needed
+};
+```
+
+
+The usage would then be:
+
+```c++
+CustomCollection* anyCollection = CreateRandomCollection();
+for (auto iterator = anyCollection->begin(); iterator != anyCollection->end(); iterator->MoveNext()) {
+    std::cout << "Next Element: " << iterator->GetCurrent() << std::endl;
 }
 ```
 
-Now, this Interface can be used as follows:
+## Range-based for loop in C++
 
-```cs
-ICollection anyCollection = CreateRandomCollection();
-IIterator iterator = anyCollection.GetIterator();
-while(iterator.HasNext()){
-    Console.WriteLine($"Next Element: {iterator.GetNext()}");
+The range-based for loop in C++ simplifies the iteration over containers that provide the necessary methods (`begin()` and `end()` ). It abstracts away the iterator details.
+
+```c++
+std::vector<int> numbers = {2, 5};
+for (int number : numbers) {
+    std::cout << number << std::endl;
 }
 ```
 
-## IEnumerable
+This loop works for any type that provides `begin()` and `end()` methods, making it easy to iterate over your custom collections.
 
-The `IEnumerable`-Interface is defined twice. Once as `System.Collections.IEnumerable` and once as `System.Collections.Generic.IEnumerable<T>`. I guess you know, why? Because the latter is Type-Safe and used for Generic Collections.
-
-The Purpose is for a class to implement the Iterator-Pattern, which is a very popular Design Pattern. A Design Pattern is a Pattern that has been specified as a solution to a certain kind of problem. Usually, Design Patterns require you to implement them for your specific use-case, but the code-structure usually looks very similar to the original.
-
-The Iterator-Pattern is a smart solution which allows you to easily iterate over a collection of variable elements.
-
-To iterate means to go through it and look at all elements which are stored in the Collection.
-
-You need to know, that not all collections have an Order to it. Which means, that not all Collections allow you to use the indexer like `collection[0]` and `collection[25]` to access the elements at a certain position in the collection.
-
-Iterators solve the problem, because you get access to all elements without any guaranteed order.
-
-The Interface is defined as such:
-
-```cs
-namespace System.Collections;
-
-public interface IEnumerable
-{
-    // Returns an IEnumerator for this enumerable Object.  The enumerator provides
-    // a simple way to access all the contents of a collection.
-    IEnumerator GetEnumerator();
+```c++
+CustomCollection* customCollection = CreateCustomCollection();
+for (auto element : *customCollection) {
+    std::cout << "Next Element: " << element << std::endl;
 }
 ```
-
-Alright. This does not look all too interesting. All the Magic happens in the `IEnumerator`-Interface, I suppose?
-
-## IEnumerator
-
-```cs
-namespace System.Collections;
-
-public interface IEnumerator
-{
-    // Advances the enumerator to the next element of the enumeration and
-    // returns a boolean indicating whether an element is available. Upon
-    // creation, an enumerator is conceptually positioned before the first
-    // element of the enumeration, and the first call to MoveNext
-    // brings the first element of the enumeration into view.
-    //
-    bool MoveNext();
-
-    // Returns the current element of the enumeration. The returned value is
-    // undefined before the first call to MoveNext and following a
-    // call to MoveNext that returned false. Multiple calls to
-    // GetCurrent with no intervening calls to MoveNext
-    // will return the same object.
-    //
-    object? Current
-    {
-        get;
-    }
-
-    // Resets the enumerator to the beginning of the enumeration, starting over.
-    // The preferred behavior for Reset is to return the exact same enumeration.
-    // This means if you modify the underlying collection then call Reset, your
-    // IEnumerator will be invalid, just as it would have been if you had called
-    // MoveNext or Current.
-    //
-    void Reset();
-}
-```
-
-Alright, the Interface looks straightforward enough, doesn't it?
-
-`bool MoveNext()` moves the Iterator to the next Element in the Collection. In the beginning, it is placed BEFORE the First Element. Which means, that you need to move it first before trying to access any element. It returns `true`, if it successfully moved the Iterator. If it returns `false`, it means that you've reached over the end of the Collection.
-
-`Current {get;}` gives you the current Element of the Collection. It points at different Elements after calling `MoveNext`.
-
-`void Reset()` allows you to reset the Enumerator, in case you want to start over from the first element again. This is pretty uncommon.
-
-## foreach
-
-If you have done the previous Exercise, then you have actually implemented your own Implementation of `foreach`.
-
-`foreach` is only syntactic sugar which makes Code especially readable, if you want to iterate over a collection. Instead of calling `GetEnumerator()`, `MoveNext()` and `Current`, you can simply write:
-
-```cs
-using System.Collections.Generic;
-
-List<int> numbers = new List<int>();
-numbers.Add(2);
-numbers.Add(5);
-foreach(int number in numbers){
-    System.Console.WriteLine(number);
-}
-```
-
-Pretty neat, or? Now, you've come to understand that this keyword does not do any Magic, but just uses existing Program Code under the hood. And that you are able to provide `foreach`-Support for your class by implementing the `IEnumerable` or `IEnumerable<T>`-Interface.

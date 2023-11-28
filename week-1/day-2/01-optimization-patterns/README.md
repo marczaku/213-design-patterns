@@ -116,7 +116,7 @@ Think that you're done? Check my hints (one by one) to see if you covered everyt
 <details>
   <summary>Third Hint</summary>
   
-  The `private ColorInfo[] colors` Field is the part that consumes most memory.
+  The `private ColorInfo[] colors` Field is the part that consumes most memory and should therefore be shared.
   
 </details>
 

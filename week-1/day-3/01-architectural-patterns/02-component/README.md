@@ -13,4 +13,4 @@ public:
 - Multiple Inheritance
 - Dreaded Diamond
 - Entity-Component-Framework
-- ECS
+- ECS (e.g. Unity DOTS)

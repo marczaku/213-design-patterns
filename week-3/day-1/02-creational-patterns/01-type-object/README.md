@@ -1,24 +1,19 @@
-# Visitor
+# Type Object
 
 ## Summary
 
-a `Visitable` object permits a `Visitor` to operate on a specific element of its structure.
-
-This process allows the visited object to acquire new functionality from visitors without being directly
-modified.
+Define a `type object` class and a `typed object` class. Each `type object` instance represents a different logical type. Each `typed object` stores a reference to the `type object` that describes its type.
 
 ## Motivation
 
-Allow new functions to be added without changing a class.
-
-Problem: Breaks encapsulation
+Allow the flexible creation of new “classes” by creating a single class, each instance of which represents a different type of object.
 
 ## Example
-- Class-Specific Bonuses
+- Resource Types
 
 ## Use Cases
-- Not sure
+- Anytime you want to introduce an enum named `XXXType`
+- RPG: Race Type, Class Type, Stat Type, Resource Type
 
 ## See also
-- Tight Coupling
 - Open-Closed Principle

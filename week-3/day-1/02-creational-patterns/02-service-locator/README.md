@@ -1,28 +1,18 @@
-# Interpreter
-
-- What's an interpreter in real life?
-- What are Interpreter languages?
-- What's the opposite?
+# Service Locator
 
 ## Summary
 
-Defines a grammar for the language and an interpreter that interprets sentences in the language.
+A service class defines an abstract interface to a set of operations. A concrete service provider implements this interface. A separate service locator provides access to the service by finding an appropriate provider while hiding both the provider’s concrete type and the process used to locate it.
 
 ## Motivation
 
-What's the difference between these?
-- programming
-- scripting
-- configuring
+Provide a global point of access to a service without coupling users to the concrete class that implements it.
 
 ## Example
-- Formula parsing
+- Skybox
 
 ## Use Cases
-- Formula Parsing
-- Allow users to script
-- Allow designers to script
-- Interesting Game Mechanics
+- Anytime you don't use Dependency-Injection
 
 ## See also
-- Byte-Code Pattern
+- Dependency-Injection

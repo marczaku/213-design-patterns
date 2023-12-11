@@ -14,4 +14,4 @@ Builder is a creational design pattern that lets you construct complex objects s
 
 ## See also
 - Factory
-- Single-Reponsibility
+- Single-Responsibility
